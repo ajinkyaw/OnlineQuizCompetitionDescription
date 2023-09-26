@@ -19,7 +19,7 @@ public class JDBCService {
 	    try {
 	        Connection connection = JDBCUtil.getConnection();
 
-	        String teacherToInsert = "INSERT INTO teacher (userName, userPassword) VALUES (?, ?)";
+	        String teacherToInsert = "INSERT INTO teacherdata (username, password) VALUES (?, ?)";
 
 	        PreparedStatement preparedStatement = connection.prepareStatement(teacherToInsert);
 	        preparedStatement.setString(1, username);
@@ -43,7 +43,7 @@ public class JDBCService {
 	    try {
 	        Connection connection = JDBCUtil.getConnection();
 
-	        String studentToInsert = "INSERT INTO student (userName, userPassword) VALUES (?, ?)";
+	        String studentToInsert = "INSERT INTO studentdata (username, password) VALUES (?, ?)";
 
 	        PreparedStatement preparedStatement = connection.prepareStatement(studentToInsert);
 	        preparedStatement.setString(1, username);

@@ -51,47 +51,38 @@ public class QuizController {
 //		return respo;
 //	}
 	
+
 	@PostMapping("/register-api")
-	public String registerUser(
+	public ModelAndView registerUser(
 	        @RequestParam("username") String username,
 	        @RequestParam("password") String password,
 	        @RequestParam("userType") String userType, // Add user type parameter
-	        Model model) {
-	    String respo = " ";
-	    try 
-	    {
-	        if ("student".equals(userType)) 
-	        {
-	            jdbcService.registerStudent(username, password);
-	        } 
-	        
-	        else if ("teacher".equals(userType)) 
-	        {
-	            jdbcService.registerTeacher(username, password);
-	        } 
-	        
-	        else 
-	        {
-	            // Handle invalid user type here (optional)
-	            respo = "failed";
-	            model.addAttribute("message", "Invalid user type");
-	            return respo;
-	        }
+	        ModelAndView model) 
+	{
+		  try {
+		        if ("student".equals(userType)) {
+		            jdbcService.registerStudent(username, password);
+		            model.setViewName("RegisterSuccessStudent"); // Set the view name to display the success JSP
+		            
+		        } else if ("teacher".equals(userType)) {
+		            jdbcService.registerTeacher(username, password);
+		            model.setViewName("RegisterSuccessTeacher"); // Set the view name to display the success JSP
+		            
+		        } else {
+		            // Handle invalid user type here (optional)
+		            model.addObject("message", "Invalid user type");
+		            model.setViewName("RegistrationFailed"); // Display another JSP for registration failure
+		            return model;
+		        }
 
-	        respo = "success";
-	        model.addAttribute("message", "Registration successful");
-	        
-	    } 
-	    catch (Exception e) 
-	    {
-	        respo = "failed";
-	        model.addAttribute("message", "Registration failed");
-	        e.printStackTrace(); // Print any exception details for debugging
-	    }
-	    return respo;
+		  
+		    } catch (Exception e) {
+		        model.addObject("Registration Failed"); // Display another JSP for registration failure
+		        e.printStackTrace(); // Print any exception details for debugging
+		    }
+	    return model;
 	}
-
-
+	
 	@GetMapping("/generateQuestion")
 
 	public ModelAndView generateQuestion(ModelAndView model) {
@@ -115,6 +106,8 @@ public class QuizController {
 	{
 		String respo = " ";
 		ArrayList<String> options_list = new ArrayList<String>();
+		
+		System.out.println(options_list);
 	
 		//options_list = Arrays.asList(option1,option2,option3,option4);
 		options_list.add(option1);
@@ -151,6 +144,13 @@ public class QuizController {
 
 	}
 	
+	@GetMapping("/exit")
+
+	public ModelAndView goToExitPage(ModelAndView model) {
+		model.setViewName("exit");
+		return model; // This corresponds to the view name (welcome.html)
+
+	}
 	
 	
 }

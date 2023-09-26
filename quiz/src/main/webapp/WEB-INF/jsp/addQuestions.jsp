@@ -20,7 +20,7 @@
 
     <h1>Generate Question</h1>
 
-    <form action="generateQuestion-api" method="post">
+    <form action="/generateQuestion-api" method="post"> 
 
     
 
@@ -83,12 +83,8 @@
         </select><br><br>
 
         
+ <input type="submit" value="Save" name="generate_question">
 
-        
-
-        <input type="submit" value="Add Question" name="generate_question">
-
-    </form>
 
 </body>
 

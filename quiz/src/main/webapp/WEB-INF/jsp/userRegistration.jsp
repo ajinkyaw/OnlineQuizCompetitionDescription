@@ -9,7 +9,7 @@
 </head>
 <body>
     <h1>User Registration</h1>
-    <form action="registration_process.php" method="POST">
+    <form action="registration-api" method="POST">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
         <br><br>

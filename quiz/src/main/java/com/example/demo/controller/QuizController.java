@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.model.Question;
 import com.example.demo.services.QuizService;
+import com.example.demo.services.jdbcService;
 
 @RestController
 public class QuizController {
@@ -31,7 +32,7 @@ public class QuizController {
 	public ModelAndView registration(ModelAndView model) {
 		String message = "Welcome to a registeration page1";
 		model.addObject("message", message);
-		model.setViewName("UserRegisteration");
+		model.setViewName("userRegisteration");
 		return model; // This corresponds to the view name (welcome.html)
 	}
 
@@ -42,6 +43,39 @@ public class QuizController {
 		model.setViewName("addQuestions");
 		return model; // This corresponds to the view name (welcome.html)
 	}
+
+	@PostMapping("/generateQuestion-api")
+	public String addQuestion(@RequestParam("question") String questionStatement,
+			@RequestParam("option1") String option1,
+			@RequestParam("option2") String option2,
+			@RequestParam("option3") String option3,
+			@RequestParam("option4") String option4,
+			@RequestParam("correct_answer") String correct_answer,
+			Model model)
+	{
+		String respo = " ";
+		ArrayList<String> options_list = new ArrayList<String>();
+		// options_list = Arrays.asList(option1,option2,option3,option4);
+		options_list.add(option1);
+		options_list.add(option2);
+		options_list.add(option3);
+		options_list.add(option4);
+
+		Question question = new Question(questionStatement, options_list, correct_answer);
+
+		try {
+			jdbcService.insertQuestion(question);
+			// respo = "success";
+			model.addAttribute("message", "Question added");
+			return "redirect:/dashboard";
+		} catch (Exception e) {
+			// respo = "failed";
+			model.addAttribute("message", "Registration failed");
+			e.printStackTrace(); // Print any exception details for debugging
+		}
+		return "errorPage";
+	}
+	
 
 	@GetMapping("/login")
 	public ModelAndView showLoginPage(ModelAndView model) {
@@ -66,35 +100,4 @@ public class QuizController {
 //		return respo;
 //	}
 //
-//	@PostMapping("/generateQuestion-api")
-//	public String addQuestion(@RequestParam("question") String questionStatement,
-//			@RequestParam("option1") String option1,
-//			@RequestParam("option2") String option2,
-//			@RequestParam("option3") String option3,
-//			@RequestParam("option4") String option4,
-//			@RequestParam("correct_answer") String correct_answer,
-//			Model model)
-//	{
-//		String respo = " ";
-//		ArrayList<String> options_list = new ArrayList<String>();
-//		// options_list = Arrays.asList(option1,option2,option3,option4);
-//		options_list.add(option1);
-//		options_list.add(option2);
-//		options_list.add(option3);
-//		options_list.add(option4);
-//
-//		Question question = new Question(questionStatement, options_list, correct_answer);
-//
-//		try {
-//			jdbcService.insertQuestion(question);
-//			// respo = "success";
-//			model.addAttribute("message", "Question added");
-//			return "redirect:/dashboard";
-//		} catch (Exception e) {
-//			// respo = "failed";
-//			model.addAttribute("message", "Registration failed");
-//			e.printStackTrace(); // Print any exception details for debugging
-//		}
-//		return "errorPage";
-//	}
 }

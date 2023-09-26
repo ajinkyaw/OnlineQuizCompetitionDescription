@@ -1,79 +1,55 @@
 package com.demo.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Question {
 
 	private int id;
-
 	private String questionStatement;
-
-	private List<String> options;
-
+	private ArrayList<String> options;
 	private String correctAnswer;
-
+	
 	public Question() {
-
 		// Default constructor
-
 	}
 
-	public Question(String questionStatement, List<String> options, String correctAnswer) {
-
+	public Question(String questionStatement, ArrayList<String> options, String correctAnswer) {
 		this.questionStatement = questionStatement;
-
 		this.options = options;
-
 		this.correctAnswer = correctAnswer;
-
 	}
 
 	public int getId() {
-
 		return id;
-
 	}
 
 	public void setId(int id) {
-
 		this.id = id;
-
 	}
 
 	public String getQuestionStatement() {
-
 		return questionStatement;
-
 	}
 
 	public void setQuestionStatement(String text) {
-
 		this.questionStatement = text;
-
 	}
 
-	public List<String> getOptions() {
-
+	public ArrayList<String> getOptions() {
 		return options;
-
 	}
 
-	public void setOptions(List<String> options) {
-
+	public void setOptions(ArrayList<String> options) {
 		this.options = options;
-
 	}
 
 	public String getCorrectAnswer() {
-
 		return correctAnswer;
-
 	}
 
 	public void setCorrectAnswer(String correctAnswer) {
-
 		this.correctAnswer = correctAnswer;
-
 	}
 
 }

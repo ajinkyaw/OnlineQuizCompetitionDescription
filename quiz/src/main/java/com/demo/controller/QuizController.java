@@ -1,5 +1,6 @@
 package com.demo.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -32,24 +33,6 @@ public class QuizController {
 		model.setViewName("register");
 		return model;
 	}
-
-//	@PostMapping("/login-api")
-//	public String registerUser(@RequestParam("username") String username, @RequestParam("password") String password,
-//			Model model)
-//
-//	{
-//		String respo = " ";
-//		try {
-//			jdbcService.registerUser(username, password);
-//			respo = "success";
-//			model.addAttribute("message", "Registration successful");
-//		} catch (Exception e) {
-//			respo = "failed";
-//			model.addAttribute("message", "Registration failed");
-//			e.printStackTrace(); // Print any exception details for debugging
-//		}
-//		return respo;
-//	}
 	
 	@PostMapping("/register-api")
 	public String registerUser(
@@ -93,14 +76,11 @@ public class QuizController {
 
 
 	@GetMapping("/generateQuestion")
-
 	public ModelAndView generateQuestion(ModelAndView model) {
-
 		String message = "Add questions to the quiz here";
 		model.addObject("message", message);
 		model.setViewName("addQuestions");
 		return model; // This corresponds to the view name (welcome.html)
-
 	}
 	
 	@PostMapping("/generateQuestion-api")
@@ -134,23 +114,29 @@ public class QuizController {
 		
 		return model;
 	}
-
 	
 	
 	@GetMapping("/dashboard")
-
 	public ModelAndView dashboard(ModelAndView model) {
-
 		String message = "Question added";
-
 		model.addObject("message", message);
-
 		model.setViewName("dashboard");
-
 		return model; // This corresponds to the view name (welcome.html)
-
 	}
 	
-	
-	
+	@GetMapping("/studentDashboard/takeQuiz")
+    public ModelAndView showQuiz(ModelAndView model) {
+        try {
+            ArrayList<Question> questions = jdbcService.getAllQuestions();
+            System.out.println(questions);
+            model.addObject("quiz", questions);
+            model.setViewName("displayQuiz"); // Set the name of your JSP page here
+        } catch (SQLException e) {
+            // Handle database-related exceptions
+            e.printStackTrace();
+            // You might want to return an error page here
+            model.setViewName("error"); // Set the name of your error JSP page here
+        }
+        return model;
+    }	
 }

@@ -1,21 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Quiz Display</title>
+    <meta charset="UTF-8">
+    <title>Quiz Questions</title>
 </head>
 <body>
-    <h1>${quiz.title}</h1>
-    <form action="submitQuiz.jsp" method="post">
-        <c:forEach var="question" items="${quiz.questions}">
-            <div class="question">
-                <p>${question.text}</p>
+    <h1>Quiz Questions</h1>
+    
+    <c:forEach var="question" items="${quiz}">
+        <div>
+            <p>${question.questionStatement}</p>
+            <ul>
                 <c:forEach var="option" items="${question.options}">
-                    <input type="radio" name="q${question.id}" value="${option}">${option}<br>
+                    <li>${option}</li>
                 </c:forEach>
-            </div>
-        </c:forEach>
-        <input type="submit" value="Submit Quiz">
-    </form>
+            </ul>
+            <p>Correct Answer: ${question.correctAnswer}</p>
+        </div>
+    </c:forEach>
 </body>
-</html>s
+</html>

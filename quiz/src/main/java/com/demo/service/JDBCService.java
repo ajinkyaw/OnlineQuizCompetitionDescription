@@ -5,14 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
 import com.demo.model.Question;
-import com.demo.model.Quiz;
 import com.demo.util.JDBCUtil;
 
 @Service
@@ -89,40 +85,40 @@ public class JDBCService {
 
 	}
 
-    public ArrayList<Question> getAllQuestions() throws SQLException {
-    	ArrayList<Question> questions = new ArrayList<>();
-        
-        String SELECT_QUESTIONS_SQL = "SELECT * FROM quizdata";
-        
-        Connection connection = JDBCUtil.getConnection();
+	public ArrayList<Question> getAllQuestions() throws SQLException {
+		ArrayList<Question> questions = new ArrayList<>();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUESTIONS_SQL);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-            while (resultSet.next()) {
-                String text = resultSet.getString("question");
-                String option1 = resultSet.getString("option1");
-                String option2 = resultSet.getString("option2");
-                String option3 = resultSet.getString("option3");
-                String option4 = resultSet.getString("option4");
-                String correctAnswer = resultSet.getString("correctAnswer");
-                
-                ArrayList<String> options = new ArrayList<>();
-                
-                options.add(option1);
-                options.add(option2);
-                options.add(option3);
-                options.add(option4);       
-                
-                Question question = new Question(text, options, correctAnswer);
-                questions.add(question);
-            }
-        } finally {
-            if (connection != null) {
-                connection.close();
-            }
-        }
+		String SELECT_QUESTIONS_SQL = "SELECT * FROM quizdata";
 
-        return questions;
-    }
+		Connection connection = JDBCUtil.getConnection();
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUESTIONS_SQL);
+				ResultSet resultSet = preparedStatement.executeQuery()) {
+			while (resultSet.next()) {
+				String text = resultSet.getString("question");
+				String option1 = resultSet.getString("option1");
+				String option2 = resultSet.getString("option2");
+				String option3 = resultSet.getString("option3");
+				String option4 = resultSet.getString("option4");
+				String correctAnswer = resultSet.getString("correctAnswer");
+
+				ArrayList<String> options = new ArrayList<>();
+
+				options.add(option1);
+				options.add(option2);
+				options.add(option3);
+				options.add(option4);
+
+				Question question = new Question(text, options, correctAnswer);
+				questions.add(question);
+			}
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+		}
+
+		return questions;
+	}
 
 }

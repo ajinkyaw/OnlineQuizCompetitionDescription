@@ -1,6 +1,6 @@
 package com.demo.model;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class Question {
 
@@ -8,17 +8,11 @@ public class Question {
 
 	private String questionStatement;
 
-	private List<String> options;
+	private ArrayList<String> options;
 
 	private String correctAnswer;
 
-	public Question() {
-
-		// Default constructor
-
-	}
-
-	public Question(String questionStatement, List<String> options, String correctAnswer) {
+	public Question(String questionStatement, ArrayList<String> options, String correctAnswer) {
 
 		this.questionStatement = questionStatement;
 
@@ -52,13 +46,13 @@ public class Question {
 
 	}
 
-	public List<String> getOptions() {
+	public ArrayList<String> getOptions() {
 
 		return options;
 
 	}
 
-	public void setOptions(List<String> options) {
+	public void setOptions(ArrayList<String> options) {
 
 		this.options = options;
 
@@ -75,5 +69,13 @@ public class Question {
 		this.correctAnswer = correctAnswer;
 
 	}
+
+//	@Override
+//
+//	public String toString() {
+//
+//		return "Question{" + "id=" + id + "," + "questionStatement=" + questionStatement + "}" + "Options" + options;
+//
+//	}
 
 }

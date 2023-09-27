@@ -1,5 +1,6 @@
 package com.demo.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -149,6 +150,31 @@ public class QuizController {
 	public ModelAndView goToExitPage(ModelAndView model) {
 		model.setViewName("exit");
 		return model; // This corresponds to the view name (welcome.html)
+
+	}
+	
+	@GetMapping("/studentDashboard/takeQuiz")
+	public ModelAndView showQuiz() {
+
+		ModelAndView model = new ModelAndView();
+		try {
+			
+			ArrayList<Question> questions = jdbcService.getAllQuestions();
+			System.out.println(questions);
+			model.addObject("questions", questions);
+			model.setViewName("displayQuiz"); // Set the name of your JSP page here
+
+		} catch (SQLException e) {
+
+			// Handle database-related exceptions
+			e.printStackTrace();
+
+			// You might want to return an error page here
+			model.setViewName("error"); // Set the name of your error JSP page here
+
+		}
+
+		return model;
 
 	}
 	

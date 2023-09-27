@@ -3,7 +3,6 @@ package com.demo.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,7 +49,6 @@ public class QuizController {
 //		}
 //		return respo;
 //	}
-	
 
 	@PostMapping("/register-api")
 	public ModelAndView registerUser(
@@ -84,7 +82,6 @@ public class QuizController {
 	}
 	
 	@GetMapping("/generateQuestion")
-
 	public ModelAndView generateQuestion(ModelAndView model) {
 
 		String message = "Add questions to the quiz here";
@@ -131,7 +128,6 @@ public class QuizController {
 	
 	
 	@GetMapping("/dashboard")
-
 	public ModelAndView dashboard(ModelAndView model) {
 
 		String message = "Question added";
@@ -145,7 +141,6 @@ public class QuizController {
 	}
 	
 	@GetMapping("/exit")
-
 	public ModelAndView goToExitPage(ModelAndView model) {
 		model.setViewName("exit");
 		return model; // This corresponds to the view name (welcome.html)

@@ -62,9 +62,6 @@ public class JDBCService {
 	        e.printStackTrace();
 	    }
 	}
-
-	
-	
     
    public static void insertQuestion(Question question) throws SQLException{
 

@@ -4,12 +4,15 @@ import java.util.ArrayList;
 
 public class Question {
 	private int id;
-	private String question;
+
+	private String questionStatement;
+
 	private ArrayList<String> options;
+	
 	private String correctAnswer;
 
 	public Question(String questionStatement, ArrayList<String> options, String correctAnswer) {
-		this.question = questionStatement;
+		this.questionStatement = questionStatement;
 		this.options = options;
 		this.correctAnswer = correctAnswer;
 	}
@@ -23,11 +26,11 @@ public class Question {
 	}
 
 	public String getQuestionStatement() {
-		return question;
+		return questionStatement;
 	}
 
 	public void setQuestionStatement(String text) {
-		this.question = text;
+		this.questionStatement = text;
 	}
 
 	public ArrayList<String> getOptions() {
@@ -50,7 +53,7 @@ public class Question {
     public String toString() {
         return "Question{" +
                 "id=" + id +
-                "questionStatement" + question + '\'' +
+                "questionStatement" + questionStatement + '\'' +
                 '}';
     }
 

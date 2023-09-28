@@ -28,15 +28,11 @@
 
         <br><br>
 
-        
-
         <label for="password">Password:</label>
 
         <input type="password" id="password" name="password" required>
 
         <br><br>
-
-        
 
         <label>You are:</label>
 
@@ -49,8 +45,6 @@
         <label for="teacher">Teacher</label>
 
         <br><br>
-
-        
 
         <label for="registerButton"></label>
 

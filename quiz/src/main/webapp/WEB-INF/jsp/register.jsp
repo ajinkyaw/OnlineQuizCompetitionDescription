@@ -28,29 +28,23 @@
 
         <br><br>
 
-        
-
         <label for="password">Password:</label>
 
         <input type="password" id="password" name="password" required>
 
         <br><br>
 
-        
-
         <label>You are:</label>
 
-        <input type="radio" id="student" name="usertype" value="student">
+        <input type="radio" id="student" name="userType" value="student">
 
         <label for="student">Student</label>
 
-        <input type="radio" id="teacher" name="usertype" value="teacher">
+        <input type="radio" id="teacher" name="userType" value="teacher">
 
         <label for="teacher">Teacher</label>
 
         <br><br>
-
-        
 
         <label for="registerButton"></label>
 

@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.demo.model.Question;
+import com.demo.model.Student;
+
 public class Quiz {
     private int id;
     private String title;

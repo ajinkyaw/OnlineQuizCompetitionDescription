@@ -1,7 +1,6 @@
 package com.demo.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Question {
 
@@ -9,12 +8,9 @@ public class Question {
 	private String questionStatement;
 	private ArrayList<String> options;
 	private String correctAnswer;
-	
-	public Question() {
-		// Default constructor
-	}
 
 	public Question(String questionStatement, ArrayList<String> options, String correctAnswer) {
+
 		this.questionStatement = questionStatement;
 		this.options = options;
 		this.correctAnswer = correctAnswer;
@@ -41,15 +37,35 @@ public class Question {
 	}
 
 	public void setOptions(ArrayList<String> options) {
+
 		this.options = options;
+
 	}
 
 	public String getCorrectAnswer() {
+
 		return correctAnswer;
+
 	}
 
 	public void setCorrectAnswer(String correctAnswer) {
+
 		this.correctAnswer = correctAnswer;
+
+	}
+
+	@Override
+
+	public String toString() {
+
+		return "Question{" +
+
+				"id=" + id +
+
+				"questionStatement" + questionStatement + '\'' +
+
+				'}';
+
 	}
 
 }

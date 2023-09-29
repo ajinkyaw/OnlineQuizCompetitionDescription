@@ -173,39 +173,60 @@ public class QuizController {
 //	}
 	
 	@PostMapping("/takeQuiz-api")
-    public ModelAndView processQuizSubmission(
-        @RequestParam("questions") String[] questions,
-        @RequestParam("answers") String[][] answers,
-        @RequestParam("selectedAnswers") String[] selectedAnswers) {
-		
-		
+    public ModelAndView processQuizSubmission(import org.springframework.stereotype.Controller;
+    import org.springframework.web.bind.annotation.PostMapping;
+    import org.springframework.web.bind.annotation.RequestParam;
+    import org.springframework.web.servlet.ModelAndView;
 
-        // Create a map to store questions, user answers, and correct answers
-        Map<String, Map<String, String>> quizData = new HashMap<>();
+    import java.util.ArrayList;
+    import java.util.HashMap;
+    import java.util.List;
+    import java.util.Map;
 
-        for (int i = 0; i < questions.length; i++) {
-            String question = questions[i];
-            Map<String, String> questionData = new HashMap<>();
+    @Controller
+    public class QuizController {
 
-            for (int j = 0; j < answers[i].length; j++) {
-                String optionIndex = answers[i][j];
-                String option = questions[i]; // You can use the same question text
-                questionData.put(option, optionIndex);
+        @PostMapping("/takeQuiz-api")
+        public ModelAndView processQuizSubmission(
+                @RequestParam("questions") String[] questions,
+                @RequestParam("selectedAnswers") String[] selectedAnswers) {
+
+            // Create a map to store questions and user-selected answers
+            Map<String, String> userAnswers = new HashMap<>();
+
+            for (int i = 0; i < questions.length; i++) {
+                userAnswers.put(questions[i], selectedAnswers[i]);
             }
 
-            // Add question data to the quizData map
-            quizData.put(question, questionData);
+            // Calculate the total score
+            int totalScore = calculateTotalScore(userAnswers);
+
+            // Create a ModelAndView and set view name and model attributes
+            ModelAndView modelAndView = new ModelAndView("quizResults");
+            modelAndView.addObject("userAnswers", userAnswers);
+            modelAndView.addObject("totalScore", totalScore);
+
+            return modelAndView;
         }
 
-        // Calculate the total score (you need to implement this method)
-        int totalScore = calculateTotalScore(quizData);
+        // Implement the calculateTotalScore method
+        private int calculateTotalScore(Map<String, String> userAnswers) {
+            // You need to implement this method to compare userAnswers with correct answers
+            // and calculate the total score.
+            // You can access the correct answers from your Question objects.
 
-        // Create a ModelAndView and set view name and model attributes
-        ModelAndView modelAndView = new ModelAndView("quizResults");
-        modelAndView.addObject("quizData", quizData);
-        modelAndView.addObject("totalScore", totalScore);
+            // Example pseudo-code:
+            // int score = 0;
+            // for each question in userAnswers:
+            //     if userAnswers[question] == question.getCorrectAnswer():
+            //         score += 1;
+            // return score;
 
-        return modelAndView;
+            // Replace this return statement with your logic
+            return 0;
+        }
+    }
+
     }
 
     // Implement the calculateTotalScore method to calculate the total score

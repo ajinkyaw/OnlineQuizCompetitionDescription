@@ -135,6 +135,17 @@
 <head>
 
 <title>Quiz</title>
+<script>
+    function updateHiddenInput(questionIndex, optionIndex) {
+        // Get the selected option's value
+        var selectedValue = document.querySelector('input[name="answers' + questionIndex + '"]:checked').value;
+        
+        // Update the corresponding hidden input field
+        var hiddenInput = document.querySelector('input[name="selectedAnswers' + questionIndex + '"]');
+        hiddenInput.value = selectedValue;
+        console.log(hiddenInput.value);
+    }
+</script>
 
 </head>
 
@@ -155,13 +166,13 @@
 		%>
 
 		<h2>
-			<input type="hidden" name="questions"
+			<input type="hidden" name="questions<%=i%>"
 				value="<%=question.getQuestionStatement()%>">
 			<%=i + 1 + ". " + question.getQuestionStatement()%>
 			
 		</h2>
 
-		<ul style="">
+		<ul style="list-style-type: none">
 
 			<%
 			for (int j = 0; j < question.getOptions().size(); j++) {
@@ -169,7 +180,7 @@
 				String option = question.getOptions().get(j);
 			%>
 
-			<li><input type="radio" name="answers<%=i%>" value="${j}" />
+			<li><input type="radio" name="answers<%=i%>" value="<%=j%>" onchange="updateHiddenInput(<%=i%>, <%=j%>)"/>
 
 				<%=option%></li>
 
@@ -183,9 +194,7 @@
 		<%
 		}
 		%>
-
 		<button type="submit">Submit Quiz</button>
-
 	</form>
 
 </body>

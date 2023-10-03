@@ -10,16 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.demo.model.Question;
 import com.demo.service.JDBCService;
+import java.lang.reflect.Field;
 
 @RestController
 public class QuizController {
-	
+
 	@Autowired
 	private JDBCService jdbcService;
 
@@ -49,8 +51,8 @@ public class QuizController {
 
 	@PostMapping("/register-api")
 	public ModelAndView registerUser(@RequestParam("username") String username,
-			@RequestParam("password") String password, 
-			@RequestParam("userType") String userType, // Add user type																						// parameter
+			@RequestParam("password") String password, @RequestParam("userType") String userType, // Add user type //
+																									// parameter
 			ModelAndView model) {
 		try {
 			if ("student".equals(userType)) {
@@ -86,18 +88,14 @@ public class QuizController {
 	}
 
 	@PostMapping("/generateQuestion-api")
-	public ModelAndView addQuestion(
-			@RequestParam("question") String questionStatement,
-			@RequestParam("option1") String option1, 
-			@RequestParam("option2") String option2,
-			@RequestParam("option3") String option3, 
-			@RequestParam("option4") String option4,
-			@RequestParam("correct_answer") String correct_answer, 
-			ModelAndView model)
+	public ModelAndView addQuestion(@RequestParam("question") String questionStatement,
+			@RequestParam("option1") String option1, @RequestParam("option2") String option2,
+			@RequestParam("option3") String option3, @RequestParam("option4") String option4,
+			@RequestParam("correct_answer") String correct_answer, ModelAndView model)
 
 	{
 		ArrayList<String> options_list = new ArrayList<String>();
-		
+
 		options_list.add(option1);
 		options_list.add(option2);
 		options_list.add(option3);
@@ -139,7 +137,7 @@ public class QuizController {
 		}
 		return model;
 	}
-	
+
 //	@PostMapping("/takeQuiz-api")
 //	public ModelAndView getAnswers(
 //			@RequestParam("questions") String[] questions,
@@ -169,53 +167,71 @@ public class QuizController {
 //		}
 //		return model;
 //	}
-	
+
 //	
 //    @RequestParam("selectedAnswers") String[] selectedAnswers,
-	
-	@PostMapping("/takeQuiz-api")
-    public ModelAndView processQuizSubmission(
-    		@ModelAttribute("questions") ArrayList<Question> questions,
-            ModelAndView model) {
 
-        // Create a map to store questions and user-selected answers
-        Map<String, String> userAnswers = new HashMap<>();
-        
-        System.out.println(questions);
-
+//	@PostMapping("/takeQuiz-api")
+//    public String handleQuizSubmission(
+//            @RequestParam String[] questions,
+//            @RequestParam String[] selectedAnswers,
+//            @RequestParam String[] selectAns
+//    ) {
+//        // Process the submitted quiz data here
 //        for (int i = 0; i < questions.length; i++) {
-//            userAnswers.put(questions[i], selectedAnswers[i]);
-//            System.out.println(selectedAnswers[i]);
+//            String question = questions[i];
+//            String selectedAnswer = selectedAnswers[i];
+//            String selectedAnswerOption = selectAns[i];
+//
+//            // You can now work with the question, selected answer, and option index
+//            // For example, you can store them in a database, calculate scores, etc.
+//
+//            System.out.println("Question: " + question);
+//            System.out.println("Selected Answer: " + selectedAnswer);
+//            System.out.println("Selected Answer Option: " + selectedAnswerOption);
 //        }
+//
+//        // Redirect to a thank you page or a result page
+//        return "thankYouPage";
+//    }
 
-        // Calculate the total score
-        int totalScore = calculateTotalScore(userAnswers);
+	@PostMapping("/takeQuiz-api")
+	public ModelAndView processQuizSubmission(
+			@RequestParam("questionTexts[]") String[] questionTexts,
+			@RequestParam("selectAns[]") Integer[] selectedAnswers,
+			ModelAndView model) {
 
-        // Create a ModelAndView and set view name and model attributes
-        model.addObject("userAnswers", userAnswers);
-        model.addObject("totalScore", totalScore);
+		// Create a map to store questions and user-selected answers
 
-        return model;
-    }
+		Map<String, Integer> userAnswers = new HashMap<>();
+		for (String questionText : questionTexts) {
+			//System.out.println(questionText);
+			for (int i = 0; i < questionTexts.length; i++) {
+		           userAnswers.put(questionTexts[i], selectedAnswers[i]);
+		           System.out.println(questionTexts[i] + selectedAnswers[i]);
+		           //System.out.println(selectedAnswers[i]);
+		        }
+		}
+		
+		for (String questionText : questionTexts) {
+			System.out.println(questionText);
+		}
+		
+		for (Integer selectedAnswer : selectedAnswers) {
+			System.out.println(selectedAnswer);
+		}
 
-    // Implement the calculateTotalScore method
-    private int calculateTotalScore(Map<String, String> userAnswers) {
-        // You need to implement this method to compare userAnswers with correct answers
-        // and calculate the total score.
-        // You can access the correct answers from your Question objects.
+		// Calculate the total score
+		int totalScore = jdbcService.calculateTotalScore(userAnswers);
 
-        // Example pseudo-code:
-        // int score = 0;
-        // for each question in userAnswers:
-        //     if userAnswers[question] == question.getCorrectAnswer():
-        //         score += 1;
-        // return score;
+		// Create a ModelAndView and set view name and model attributes
+		model.addObject("userAnswers", userAnswers);
+		model.addObject("totalScore", totalScore);
+		model.setViewName("quizResult");
+		return model;
 
-        // Replace this return statement with your logic
-        return 5;
-    }
-	
-	
+	}
+
 //	@GetMapping("/testQuiz")
 //	public ModelAndView showTestQuiz(ModelAndView model) {
 //		try {

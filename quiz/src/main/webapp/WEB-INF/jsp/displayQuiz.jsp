@@ -141,7 +141,7 @@
         var selectedValue = document.querySelector('input[name="answers' + questionIndex + '"]:checked').value;
         
         // Update the corresponding hidden input field
-        var hiddenInput = document.querySelector('input[name="selectedAnswers' + questionIndex + '"]');
+        var hiddenInput = document.querySelector('input[name="selectedAnswers' + optionIndex + '"]');
         hiddenInput.value = selectedValue;
         console.log(hiddenInput.value);
     }
@@ -153,21 +153,20 @@
 
 	<h1>Quiz</h1>
 
-
-
 	<form action="takeQuiz-api" method="post">
 
 		<%
 		ArrayList<Question> questions = (ArrayList<Question>) request.getAttribute("questions");
+		System.out.println(questions);
 
 		for (int i = 0; i < questions.size(); i++) {
 
 			Question question = questions.get(i);
+			System.out.println(question);
 		%>
 
 		<h2>
-			<input type="hidden" name="questions<%=i%>"
-				value="<%=question.getQuestionStatement()%>">
+			<input type="hidden" name="questions<%=i%>" value="<%=question.getQuestionStatement()%>">	
 			<%=i + 1 + ". " + question.getQuestionStatement()%>
 			
 		</h2>
@@ -180,7 +179,7 @@
 				String option = question.getOptions().get(j);
 			%>
 
-			<li><input type="radio" name="answers<%=i%>" value="<%=j%>" onchange="updateHiddenInput(<%=i%>, <%=j%>)"/>
+			<li><input type="radio" name="answers<%=i%>" value="<%=j%>" onchange="updateHiddenInput(<%=i%>, '<%=j%>')"/>
 
 				<%=option%></li>
 

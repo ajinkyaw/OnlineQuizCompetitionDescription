@@ -1,4 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" import="java.util.Map"
+	import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,16 +15,35 @@
                 <th>Your Answer</th>
             </tr>
         </thead>
+        
         <tbody>
-            <c:forEach items="${userAnswers}" var="entry">
+        <%
+        
+        Map<String, Integer> userAnswers = (Map<String, Integer>) request.getAttribute("userAnswers");
+        ArrayList<String> userSelectedAnswers = (ArrayList<String>) request.getAttribute("userSelectedAnswers");
+        ArrayList<String> correctAnswers = (ArrayList<String>) request.getAttribute("correctAnswers");
+        ArrayList<String> questionTexts = (ArrayList<String>) request.getAttribute("questionTexts");
+        Integer score = (Integer) request.getAttribute("totalScore");
+        
+        for (String userSelectedAnswer : userSelectedAnswers) {
+			System.out.println("testing userSelectedAnswer: " + userSelectedAnswer);
+		}
+        
+        for (int i = 0; i < questionTexts.size(); i++) {
+            String question = questionTexts.get(i);
+            String userAnswer = userSelectedAnswers.get(i);
+            String correctAnswer = correctAnswers.get(i);
+		%>
                 <tr>
-                    <td>${entry.key}</td>
-                    <td>${correctAnswers[entry.key]}</td>
-                    <td>${entry.value}</td>
+                    <td><%=question%></td>
+                    <td><%=correctAnswer%></td>
+                    <td><%=userAnswer%></td>
                 </tr>
-            </c:forEach>
         </tbody>
+        <%
+        }
+        %>
     </table>
-    <h2>Total Score: ${totalScore}</h2>
+    <h2>Total Score: <%=score%></h2>
 </body>
 </html>

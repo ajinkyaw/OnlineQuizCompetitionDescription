@@ -204,29 +204,39 @@ public class QuizController {
 		// Create a map to store questions and user-selected answers
 
 		Map<String, Integer> userAnswers = new HashMap<>();
-		for (String questionText : questionTexts) {
-			//System.out.println(questionText);
-			for (int i = 0; i < questionTexts.length; i++) {
-		           userAnswers.put(questionTexts[i], selectedAnswers[i]);
-		           System.out.println(questionTexts[i] + selectedAnswers[i]);
-		           //System.out.println(selectedAnswers[i]);
-		        }
+		ArrayList<String> questions = new ArrayList<String>();
+		
+		for (int i = 0; i < questionTexts.length; i++) {
+	           userAnswers.put(questionTexts[i], selectedAnswers[i]);
+	           questions.add(questionTexts[i]);
+	           //System.out.println(questionTexts[i] + selectedAnswers[i]);
+	           //System.out.println(selectedAnswers[i]);
 		}
 		
-		for (String questionText : questionTexts) {
-			System.out.println(questionText);
-		}
-		
-		for (Integer selectedAnswer : selectedAnswers) {
-			System.out.println(selectedAnswer);
-		}
+//		for (String questionText : questionTexts) {
+//			System.out.println(questionText);
+//		}
+//		
+//		for (Integer selectedAnswer : selectedAnswers) {
+//			System.out.println(selectedAnswer);
+//		}
 
 		// Calculate the total score
 		int totalScore = jdbcService.calculateTotalScore(userAnswers);
+		ArrayList<String> userSelectedAnswers = jdbcService.returnAnswer(userAnswers);
+		ArrayList<String> correctAnswers = jdbcService.returnCorrectAnswers(userAnswers);
+		System.out.println(totalScore);
+		
+		for (String answer : userSelectedAnswers) {
+			System.out.println(answer);
+		}
 
 		// Create a ModelAndView and set view name and model attributes
 		model.addObject("userAnswers", userAnswers);
+		model.addObject("questionTexts", questions);
 		model.addObject("totalScore", totalScore);
+		model.addObject("userSelectedAnswers", userSelectedAnswers);
+		model.addObject("correctAnswers", correctAnswers);
 		model.setViewName("quizResult");
 		return model;
 
